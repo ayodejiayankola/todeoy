@@ -30,7 +30,13 @@
                             <outlet property="delegate" destination="v4b-Pl-Zpv" id="cuf-xa-Rz8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="ToDoey" id="zZM-EW-Ybf"/>
+                    <navigationItem key="navigationItem" title="ToDoey" id="zZM-EW-Ybf">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="6pG-RZ-q9E">
+                            <connections>
+                                <action selector="addNewItem:" destination="v4b-Pl-Zpv" id="HyZ-sa-kgD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enb-EA-6EG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -63,6 +69,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

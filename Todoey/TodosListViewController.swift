@@ -9,7 +9,7 @@ import UIKit
 
 class TodosListViewController: UITableViewController {
 
-    let items = ["Item One" , "Item Two" , "Item Three"]
+    var items = ["Item One" , "Item Two" , "Item Three"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,5 +43,28 @@ class TodosListViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated:true)
     }
+    
+    @IBAction func addNewItem(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Item", message: "" , preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add New Item", style: .default) { (action) in
+            self.items.append(textField.text!)
+            self.tableView.reloadData()
+            
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil
+        )
+//        alert.addAction(action)
+//        present(alert, animated: true, completion: nil
+    }
+    
 }
 
