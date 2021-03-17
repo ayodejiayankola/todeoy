@@ -9,11 +9,17 @@ import UIKit
 
 class TodosListViewController: UITableViewController {
 
+    
     var items = ["Item One" , "Item Two" , "Item Three"]
+    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if let item = defaults.array(forKey: "TodoListArray") as? [String] {
+            items = item
+        }
     }
 
   //MARK:- TableView Data Source
@@ -24,7 +30,7 @@ class TodosListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
 //             let messageArray = ["First Message", "Second Message", "Third Message"]
-//             cell.messageBody.text = messageArray[indexPath.row]
+//             cell.messageBody.text = messageArray[indexPath.row] 
 //             return cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         cell.textLabel?.text = items[indexPath.row]
@@ -50,6 +56,7 @@ class TodosListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "" , preferredStyle: .alert)
         let action = UIAlertAction(title: "Add New Item", style: .default) { (action) in
             self.items.append(textField.text!)
+            self.defaults.set(self.items, forKey: "TodoListArray")
             self.tableView.reloadData()
             
         }
