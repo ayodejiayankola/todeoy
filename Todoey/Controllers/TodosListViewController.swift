@@ -10,16 +10,31 @@ import UIKit
 class TodosListViewController: UITableViewController {
 
     
-    var items = ["Item One" , "Item Two" , "Item Three"]
+    var items = [Item]()
     
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let newItem = Item()
+        newItem.title = "Item One"
+        items.append(newItem)
+        let newItem2 = Item()
+        newItem2.title = "Item Two"
+        items.append(newItem2)
+        let newItem3 = Item()
+        newItem3.title = "Item Three"
+        items.append(newItem3)
+        
+        
+        
+        
         // Do any additional setup after loading the view.
-        if let item = defaults.array(forKey: "TodoListArray") as? [String] {
-            items = item
-        }
+//        if let item = defaults.array(forKey: "TodoListArray") as? [String] {
+//            items = item
+//
+        
     }
 
   //MARK:- TableView Data Source
@@ -32,8 +47,22 @@ class TodosListViewController: UITableViewController {
 //             let messageArray = ["First Message", "Second Message", "Third Message"]
 //             cell.messageBody.text = messageArray[indexPath.row] 
 //             return cell
+        
+        let itemData = items[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = items[indexPath.row]
+        cell.textLabel?.text = itemData.title
+        
+        //ternary operator
+        //value = condition ? valuIfTrue : valueIfFalse
+        
+//        cell.accessoryType = itemData.done == true ? .checkmark :  .none
+        cell.accessoryType = itemData.done  ? .checkmark :  .none
+//        if itemData.done == true {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
         return cell
     }
     
@@ -41,13 +70,24 @@ class TodosListViewController: UITableViewController {
     // MARK:- Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(items[indexPath.row])
+        
+        
+        items[indexPath.row].done = !items[indexPath.row].done
+        
+//        if items[indexPath.row].done == false {
+//            items[indexPath.row].done = true
+//        } else {
+//            items[indexPath.row].done = false
+//        }
 //        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        if  tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+//        if  tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//        } else {
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//        }
+        tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated:true)
+        
     }
     
     @IBAction func addNewItem(_ sender: UIBarButtonItem) {
@@ -55,7 +95,12 @@ class TodosListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add New Item", message: "" , preferredStyle: .alert)
         let action = UIAlertAction(title: "Add New Item", style: .default) { (action) in
-            self.items.append(textField.text!)
+            
+            
+            let newItem = Item()
+            newItem.title = textField.text!
+            
+            self.items.append(newItem)
             self.defaults.set(self.items, forKey: "TodoListArray")
             self.tableView.reloadData()
             
